@@ -24,11 +24,6 @@ target_include_directories(ammonia PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-find_library(CORESYMBOLICATION_FRAMEWORK 
-    CoreSymbolication
-    PATHS /System/Library/PrivateFrameworks
-    REQUIRED
-)
 find_library(FD_FRAMEWORK Foundation REQUIRED)
 find_library(COCOA_FRAMEWORK Cocoa REQUIRED)
 find_library(COREFOUNDATION_FRAMEWORK CoreFoundation REQUIRED)
@@ -47,8 +42,7 @@ add_library(libinfect SHARED
 
 target_link_libraries(libinfect
     ${COCOA_FRAMEWORK}
-    ${COREFOUNDATION_FRAMEWORK}
-    ${CORESYMBOLICATION_FRAMEWORK}
+    ${COREFOUNDATION_FRAMEWORK} 
     ${CMAKE_CURRENT_SOURCE_DIR}/libfrida-gum-x86_64-arm64e-arm64.a
 )
 
@@ -69,6 +63,8 @@ add_library(opener SHARED ${OPENER_SOURCES})
 target_link_libraries(opener
     ${FD_FRAMEWORK}
     ${CMAKE_CURRENT_SOURCE_DIR}/libfrida-gum-x86_64-arm64e-arm64.a
+    "-framework Security"
+    sandbox
 )
 target_include_directories(opener PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
