@@ -109,14 +109,14 @@ bool PathDriver(const char *path) {
     return (strstr(path, "Driver") != NULL);
 }
 
-const char *GenerateMachExtensions(void) {
-    const char *rw_file = sandbox_extension_issue_file(
-        APP_SANDBOX_READ_WRITE,
-        "/tmp/",
-        0);
+// const char *GenerateMachExtensions(void) {
+//     const char *rw_file = sandbox_extension_issue_file(
+//         APP_SANDBOX_READ_WRITE,
+//         "/tmp/",
+//         0);
 
-    return rw_file; // caller must free this
-}
+//     return rw_file; // caller must free this
+// }
 
 int SpawnNew(pid_t * pid, const char * path, const posix_spawn_file_actions_t * ac, const posix_spawnattr_t * ab, char *const __argv[], char *const __envp[]) {
     char **playground = envbuf_mutcopy((const char **)__envp);
@@ -126,10 +126,10 @@ int SpawnNew(pid_t * pid, const char * path, const posix_spawn_file_actions_t * 
     } else if (PathRestricted(path) == false) {
         if (LoadsAppKit(path, "AppKit") == 1) {
             if (!PathDriver(path)) {
-                const char * blob = GenerateMachExtensions();
+                // const char * blob = GenerateMachExtensions();
                 envbuf_setenv(&playground, "DYLD_INSERT_LIBRARIES", SupportFolderP"libopener.dylib");
-                envbuf_setenv(&playground, "AMMONIA_SANDBOX_EXT", blob);
-                free((void *)blob);
+                //envbuf_setenv(&playground, "AMMONIA_SANDBOX_EXT", blob);
+                // free((void *)blob);
             }
         }
     }

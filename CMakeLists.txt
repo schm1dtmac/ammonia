@@ -70,18 +70,18 @@ target_include_directories(opener PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-set(APP_SOURCES
-    app/main.m
-)
+# set(APP_SOURCES
+#     app/main.m
+# )
 
-# Add the main executable as a macOS app bundle
-add_executable(ammapp MACOSX_BUNDLE ${APP_SOURCES})
+# # Add the main executable as a macOS app bundle
+# add_executable(ammapp MACOSX_BUNDLE ${APP_SOURCES})
 
-# Set macOS bundle properties
-set_target_properties(ammapp PROPERTIES
-    MACOSX_BUNDLE_BUNDLE_NAME "Ammonia"
-    MACOSX_BUNDLE_GUI_IDENTIFIER "com.ammapp.ammonia"
-    MACOSX_BUNDLE_BUNDLE_VERSION "1.0"
-    MACOSX_BUNDLE_SHORT_VERSION_STRING "1.0"
-    MACOSX_BUNDLE TRUE
-)
+# # Set macOS bundle properties
+# set_target_properties(ammapp PROPERTIES
+#     MACOSX_BUNDLE_BUNDLE_NAME "Ammonia"
+#     MACOSX_BUNDLE_GUI_IDENTIFIER "com.ammapp.ammonia"
+#     MACOSX_BUNDLE_BUNDLE_VERSION "1.0"
+#     MACOSX_BUNDLE_SHORT_VERSION_STRING "1.0"
+#     MACOSX_BUNDLE TRUE
+# )

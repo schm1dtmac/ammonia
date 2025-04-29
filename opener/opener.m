@@ -175,12 +175,6 @@ void __attribute__((constructor)) ctor_main(void) {
     void *(*GumInterceptorObtainFunc)(void) = dlsym(hooking, "gum_interceptor_obtain");
     
     GumInitEmbeddedFunc();
-
-    const char *keys = getenv("AMMONIA_SANDBOX_EXT");
-    int64_t handle = sandbox_extension_consume(keys);
-    if (handle > 0) {
-        printf("Got token: %s\r\n", keys);
-    }
     
     Open(GumInterceptorObtainFunc());
 }
