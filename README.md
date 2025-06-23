@@ -1,4 +1,4 @@
-Ammonia is a modern macOS extension/tweak loader, enabling modifications on Mac systems system. SIP must be disabled. 
+Ammonia is a modern macOS extension/tweak loader, enabling modifications on Mac systems. SIP must be disabled. 
 
 # Quick Install
 - Turn off SIP
