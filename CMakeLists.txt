@@ -35,7 +35,7 @@ target_link_libraries(ammonia
 
 # Add custom library for libinfect
 add_library(libinfect SHARED
-    libinfect/libinfect.c
+    libinfect/libinfect.m
     libinfect/envbuf.c
     libinfect/frida-gum.h
 )

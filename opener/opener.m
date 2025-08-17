@@ -131,13 +131,30 @@ int IsForegroundProcess()
            !(category_policy.role & TASK_DEFAULT_APPLICATION);
 }
 
+static bool gum_loaded = false;
+
+typedef void (*GumInitEmbeddedFunc_t)(void);
+typedef void *(*GumInterceptorObtainFunc_t)(void);
+typedef void (*GumInterceptorBeginTransactionFunc_t)(void *interceptor);
+typedef void (*GumInterceptorEndTransactionFunc_t)(void *interceptor);
+typedef bool (*GumInterceptorReplaceFunc_t)(void *interceptor,
+                                            void *target,
+                                            void *replacement,
+                                            void *user_data,
+                                            void **out_original);
+typedef bool (*GumInterceptorRevertFunc_t)(void *interceptor,
+                                           void *target);
+
+
 void __attribute__((constructor)) ctor_main(void) {
     // Make frida interceptor availible to tweaks
     void *hooking = dlopen("/private/var/ammonia/core/fridagum.dylib", RTLD_NOW | RTLD_GLOBAL);
-    void (*GumInitEmbeddedFunc)(void) = dlsym(hooking, "gum_init_embedded");
-    void *(*GumInterceptorObtainFunc)(void) = dlsym(hooking, "gum_interceptor_obtain");
-    
-    GumInitEmbeddedFunc();
-    
+    GumInitEmbeddedFunc_t GumInitEmbeddedFunc = dlsym(hooking, "gum_init_embedded");
+    GumInterceptorObtainFunc_t GumInterceptorObtainFunc = dlsym(hooking, "gum_interceptor_obtain");
+    if (!gum_loaded) {
+        GumInitEmbeddedFunc();
+        gum_loaded = true;
+    }
+
     Open(GumInterceptorObtainFunc());
 }
