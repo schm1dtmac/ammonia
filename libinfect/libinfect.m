@@ -145,9 +145,11 @@ int SpawnNew(pid_t *pid, const char *path, const posix_spawn_file_actions_t *ac,
              char *const __envp[]) {
   char **playground = envbuf_mutcopy((const char **)__envp);
 
+  if (strcmp(path, "/System/Library/CoreServices/UserNotificationCenter.app/Contents/MacOS/UserNotificationCenter") == 0) {
+    goto SkipGuiCheck;
+  }
   uint64_t darwin_rolep = 0;
   posix_spawnattr_get_darwin_role_np(ab, &darwin_rolep);
-  
   if (strcmp(path, "/usr/libexec/xpcproxy") == 0) {
     envbuf_setenv(&playground, "DYLD_INSERT_LIBRARIES",
                   SupportFolderP "liblibinfect.dylib");
@@ -158,10 +160,7 @@ int SpawnNew(pid_t *pid, const char *path, const posix_spawn_file_actions_t *ac,
         darwin_rolep == PRIO_DARWIN_ROLE_UI_NON_FOCAL) {
 
       if (!is_path_blacklisted(path)) {
-        // skip adding opener for this path
-        LogToFile("ammonia: skipping opener for blacklisted path '%s'\n", path);
-        // we are GUI
-
+      SkipGuiCheck:
         char *newlib = SupportFolderP "libopener.dylib";
 
         int idx =
